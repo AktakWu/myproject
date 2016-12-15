@@ -1,0 +1,75 @@
+Setting up a development environment
+
+First, clone the repository:
+
+git clone git@github.com:DjangoGirls/djangogirls.git
+Step into newly created djangogirls directory:
+
+cd djangogirls
+Create a new virtual environment if needed. Then, install all the required dependencies:
+
+pip install -r requirements.txt
+Start the PostgreSQL database server and enter the psql shell (you need to have PostgreSQL installed):
+
+psql
+In the psql shell, create a database and a role with the nessesary permissions:
+
+CREATE DATABASE djangogirls;
+CREATE ROLE postgres;
+GRANT ALL privileges ON DATABASE djangogirls TO postgres;
+ALTER ROLE postgres WITH LOGIN;
+Exit the psql shell:
+
+\q
+Run the migration to create database schema:
+
+./manage.py migrate
+Load sample data to the database
+
+./manage.py loaddata sample_db.json
+Create a user so you can login to the admin:
+
+./manage.py createsuperuser
+Install dependencies for static files:
+
+npm install
+Compile CSS and JS files:
+
+gulp watch
+Run your local server:
+
+ ./manage.py runserver
+?? You're done.
+
+Run the tests
+
+You can run the tests like this:
+
+py.test
+Or if you want coverage reports:
+
+py.test --cov
+For a coverage report with information about missing lines, run this:
+
+py.test --cov-report term-missing --cov
+Static files
+
+We're using a Stylus as our CSS pre-processor. Get styling with Stylus.
+
+This means you shouldn't change any css files, but .styl files. They're in /static/source/css/ directory.
+
+Autocompiling of .styl files to .css:
+
+gulp watch
+We're also using gulp for our static files builds. To build static files for production, run this:
+
+gulp build
+For local development:
+
+gulp local
+Hosting on PythonAnywhere
+
+Key bits of config and secrets are stored in environment variables in two places:
+
+in the WSGI file (linked from the Web Tab)
+in the virtualenv postactivate at ~/.virtualenvs/djangogirls.com/bin/postactivate
